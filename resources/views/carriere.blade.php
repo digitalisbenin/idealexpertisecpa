@@ -40,7 +40,7 @@
 
   <header id="header" class="header sticky-top">
 
-    <div style="background-color: #318ce7; color: white;" class="topbar d-flex align-items-center light-background">
+    {{--  <div style="background-color: #318ce7; color: white;" class="topbar d-flex align-items-center light-background">
         <div class="container d-flex justify-content-center justify-content-md-between">
           <div class="contact-info d-flex align-items-center">
             <i style="color: white;"  class="bi bi-envelope d-flex align-items-center"><a  style="color: white; text-decoration: none;" href="#">info@idealexpertisecpa.com</a></i>
@@ -53,9 +53,10 @@
             <a style="color: white;" href="https://www.linkedin.com/in/djimessa-modeste-dansou-47624316/details/experience/?_l=en_US" class="linkedin"><i class="bi bi-linkedin"></i></a>
           </div>
         </div>
-      </div><!-- End Top Bar -->
+      </div>  --}}
+      <!-- End Top Bar -->
 
-    <div class="branding d-flex align-items-cente">
+    <div class="branding d-flex align-items-center">
 
         <div class="container position-relative d-flex align-items-center justify-content-between">
           <a href="/" class="logo d-flex align-items-center">
@@ -66,35 +67,49 @@
           </a>
 
           <nav id="navmenu" class="navmenu">
-            <ul>
-              <li><a href="/" class="active">Accueil<br></a></li>
-              <li class="dropdown"><a href="#"><span>A propos</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-                <ul>
-                  <li><a href="{{ url('/propos') }}">QUI SOMMES-NOUS</a></li>
-                  {{--  <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-                    <ul>
-                      <li><a href="#">Deep Dropdown 1</a></li>
-                      <li><a href="#">Deep Dropdown 2</a></li>
-                      <li><a href="#">Deep Dropdown 3</a></li>
-                      <li><a href="#">Deep Dropdown 4</a></li>
-                      <li><a href="#">Deep Dropdown 5</a></li>
-                    </ul>
-                  </li>  --}}
-                  <li><a href="{{ url('/clients') }}">NOS CLIENTS</a></li>
-                  <li><a href="{{ url('/galerie') }}">GALERIE</a></li>
-                  <li><a href="{{ url('/carriere') }}">CARRIERE</a></li>
-                </ul>
-              </li>
-              <li><a href="{{ url('/service') }}"> Nos Services</a></li>
-              <li><a href="#">Formations</a></li>
-              {{--  <li><a href="testimonials.html">Testimonials</a></li>
-              <li><a href="pricing.html">Pricing</a></li>
-              <li><a href="portfolio.html">Portfolio</a></li>
-              <li><a href="blog.html">Blog</a></li>  --}}
+            <ul class="montserrat fw-bold" style="font-size: 2px;" >
+              <li><a href="{{ url('/') }}" class="montserrat fw-bold {{ Request::is('/') ? 'active' : '' }}" style="font-size: 18px;" >Accueil</a></li>
 
-              <li><a href="{{ url('/contact') }}">Contacts</a></li>
-              <li><a href="{{ url('/login') }}">Connexion</a></li>
-            </ul>
+              <li class="dropdown">
+                  <a href="#" class="montserrat fw-bold {{ Request::is('propos') || Request::is('clients') || Request::is('galerie') || Request::is('carriere') ? 'active' : '' }}" style="font-size: 18px;">
+                      <span>A propos</span> <i class="bi bi-chevron-down toggle-dropdown"></i>
+                  </a>
+                  <ul>
+                      <li><a href="{{ url('/propos') }}" class="{{ Request::is('propos') ? 'active' : '' }}">QUI SOMMES-NOUS</a></li>
+                      <li><a href="{{ url('/clients') }}" class="{{ Request::is('clients') ? 'active' : '' }}">NOS CLIENTS</a></li>
+                      <li><a href="{{ url('/galerie') }}" class="{{ Request::is('galerie') ? 'active' : '' }}">GALERIE</a></li>
+                      <li><a href="{{ url('/carriere') }}" class="{{ Request::is('carriere') ? 'active' : '' }}">CARRIERE</a></li>
+                  </ul>
+              </li>
+
+              <li><a href="{{ url('/service') }}" class="montserrat fw-bold {{ Request::is('service') ? 'active' : '' }}"style="font-size: 18px;" >Nos Services</a></li>
+              <li><a href="{{ url('/formation') }}" class="montserrat fw-bold text-danger {{ Request::is('formation') ? 'active' : '' }} " style="font-size: 18px;" >Formations</a></li>
+              <li><a href="{{ url('/contact') }}" class="montserrat fw-bold {{ Request::is('contact') ? 'active' : '' }}" style="font-size: 18px;">Contacts</a></li>
+
+              @auth
+                  <li class="dropdown">
+                      <a href="#" class="montserrat fw-bold"style="font-size: 18px;" >
+                          <span>{{ Auth::user()->name }}</span> <i class="bi bi-chevron-down toggle-dropdown"></i>
+                      </a>
+                      <ul>
+                          <li><a href="{{ url('user-resultes#resultats') }}" class="{{ Request::is('user-resultes') ? 'active' : '' }}">MES RESULTATS</a></li>
+                          <li><a href="{{ url('/mes-cours') }}" class="{{ Request::is('mes-cours') ? 'active' : '' }}">MES FORMATIONS</a></li>
+                          <li><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">DECONNEXION</a></li>
+                          <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                              @csrf
+                          </form>
+                      </ul>
+                  </li>
+                  <li>
+                      <a href="{{ url('cart') }}" class="montserrat fw-bold {{ Request::is('cart') ? 'active' : '' }}" style="font-size: 18px;">
+                          Panier <span class="badge badge-pill bg-success cart-count">0</span>
+                      </a>
+                  </li>
+              @else
+                  <li><a href="{{ url('/login') }}" class="montserrat fw-bold {{ Request::is('login') ? 'active' : '' }}" style="font-size: 18px;" >Connexion</a></li>
+              @endauth
+          </ul>
+
             <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
           </nav>
 
@@ -123,12 +138,12 @@
     <!-- Call To Action Section -->
     <section id="call-to-action"  class="call-to-action section">
 
-      <div class="container">
+      <div class="container"style="text-align: justify; font-family: 'Montserrat', sans-serif;" >
 
         <div class="row" data-aos="zoom-in" data-aos-delay="100">
           <div class="col-xl-7 text-center text-xl-start">
             <h3>Rejoignez Notre Équipe</h3>
-            <p>Prenez une opportunité d’emploi – rejoignez l’équipe du Cabinet IDEAL EXPERTISE CPA. Nous apprécions les connaissances techniques actives des personnes qui souhaitent travailler sur des projets de n’importe quel type. Si vous êtes enthousiaste à l’égard des innovations techniques et prêt à prendre des décisions impressionnantes, n’hésitez pas à nous envoyer votre CV.</p>
+            <p style="text-align: justify;">Prenez une opportunité d’emploi – rejoignez l’équipe du Cabinet IDEAL EXPERTISE CPA. Nous apprécions les connaissances techniques actives des personnes qui souhaitent travailler sur des projets de n’importe quel type. Si vous êtes enthousiaste à l’égard des innovations techniques et prêt à prendre des décisions impressionnantes, n’hésitez pas à nous envoyer votre CV.</p>
           </div>
           <div class="col-xl-5 cta-btn-container text-center">
             <a class="cta-btn align-middle" href="#">ENVOYER VOTRE CV</a>
@@ -139,7 +154,7 @@
     <section id="call-to-action"  class="call-to-action section light-background ">
 
       <div class="container">
-                    <h2>Votre carrière commence ici</h2>        
+                    <h2>Votre carrière commence ici</h2>
         <div class="row mt-5" data-aos="zoom-in" data-aos-delay="200">
           <div class="col-xl-6 text-center text-xl-start ">
             <div class="col-12 col-md-8 col-xl-9 bg-white p-4 text-center shadow rounded">
@@ -153,14 +168,14 @@
             </div>
 
           </div>
-          
+
         </div>
 
       </div>
 
     </section><!-- /Call To Action Section -->
 
-       
+
 
   </main>
 
@@ -186,8 +201,8 @@
             <ul>
               <li><a href="/">Accueil</a></li>
               <li><a href="service">Nos Services</a></li>
-              <li><a href="#">carrières</a></li>
-
+              <li><a href="carriere">carrières</a></li>
+              <li><a href="https://web53.lws-hosting.com:2096/cpsess9121598487/3rdparty/roundcube/?_task=mail&_mbox=INBOX" target="_blank">Webmail</a></li>
             </ul>
           </div>
 

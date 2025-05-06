@@ -13,13 +13,20 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <script src="https://cdn.tailwindcss.com"></script>
     </head>
     <body class="font-sans text-gray-900 antialiased">
-        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
+        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-500"  >
             <div>
                 <a href="/">
-                    <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+
+                    <img  src="assets/img/hero-carousel/logoideal.jpeg" alt=" logo"class="w-24 h-24 rounded-full "  width="100px">
                 </a>
+                {{--  <a href="/">  --}}
+                    {{--  <x-application-logo class="w-20 h-20 fill-current text-gray-500" />  style="background-image: url('/assets/img/hero-carousel/carousel3.jpg'); background-size: cover;  background-position: center;"  --}}
+                    {{--  <img  src="assets/img/hero-carousel/logoideal.jpeg" alt=" logo" width="100px">  --}}
+                    {{--  <img  src="assets/img/hero-carousel/logoideal-removebg-preview.png" alt=" logo" width="100px">
+                </a>  --}}
             </div>
 
             <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">

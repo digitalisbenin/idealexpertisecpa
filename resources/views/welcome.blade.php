@@ -8,7 +8,7 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>idealexpertisecpa / Accueil</title>
   <meta name="description" content="">
-  <meta name="idealexpertisecpaidealexpertisecpa" content="">
+  <meta name="idealexpertisecpa" content="">
 
   <!-- Favicons -->
   <link href="assets/img/favicon.png" rel="icon">
@@ -36,7 +36,7 @@
 
   <header id="header" class="header sticky-top">
 
-    <div style="background-color: #318ce7; color: white;" class="topbar d-flex align-items-center light-background">
+    {{--  <div style="background-color: #318ce7; color: white;" class="topbar  d-flex align-items-center light-background">
       <div class="container d-flex justify-content-center justify-content-md-between">
         <div class="contact-info d-flex align-items-center">
           <i style="color: white;" class="bi bi-envelope d-flex align-items-center"><a  style="color: white; text-decoration: none;" href="#">info@idealexpertisecpa.com</a></i>
@@ -48,10 +48,10 @@
           <a style="color: white;"  href="#" class="instagram"><i class="bi bi-instagram"></i></a>
           <a style="color: white;" href="https://www.linkedin.com/in/djimessa-modeste-dansou-47624316/details/experience/?_l=en_US" class="linkedin"><i class="bi bi-linkedin"></i></a>
         </div>
-      </div>
+      </div>  --}}
     </div><!-- End Top Bar -->
 
-    <div class="branding d-flex align-items-cente">
+    <div class="branding d-flex align-items-center">
 
       <div class="container position-relative d-flex align-items-center justify-content-between">
         <a href="/" class="logo d-flex align-items-center">
@@ -61,35 +61,52 @@
         </a>
 
         <nav id="navmenu" class="navmenu">
-          <ul>
-            <li><a href="/" class="active">Accueil<br></a></li>
-            <li class="dropdown"><a href="#"><span>A propos</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-              <ul>
-                <li><a href="{{ url('/propos') }}">QUI SOMMES-NOUS</a></li>
-                {{--  <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-                  <ul>
-                    <li><a href="#">Deep Dropdown 1</a></li>
-                    <li><a href="#">Deep Dropdown 2</a></li>
-                    <li><a href="#">Deep Dropdown 3</a></li>
-                    <li><a href="#">Deep Dropdown 4</a></li>
-                    <li><a href="#">Deep Dropdown 5</a></li>
-                  </ul>
-                </li>  --}}
-                <li><a href="{{ url('/clients') }}">NOS CLIENTS</a></li>
-                <li><a href="{{ url('/galerie') }}">GALERIE</a></li>
-                <li><a href="{{ url('/carriere') }}">CARRIERE</a></li>
-              </ul>
-            </li>
-            <li><a href="{{ url('/service') }}"> Nos Services</a></li>
-            <li><a href="#">Formations</a></li>
-            {{--  <li><a href="testimonials.html">Testimonials</a></li>
-            <li><a href="pricing.html">Pricing</a></li>
-            <li><a href="portfolio.html">Portfolio</a></li>
-            <li><a href="blog.html">Blog</a></li>  --}}
+            <ul class="montserrat fw-bold" style="font-size: 2px;" >
+                <li><a href="{{ url('/') }}" class="montserrat fw-bold {{ Request::is('/') ? 'active' : '' }}" style="font-size: 18px;" >Accueil</a></li>
 
-            <li><a href="{{ url('/contact') }}">Contacts</a></li>
-            <li><a href="{{ url('/login') }}">Connexion</a></li>
-          </ul>
+                <li class="dropdown">
+                    <a href="#" class="montserrat fw-bold {{ Request::is('propos') || Request::is('clients') || Request::is('galerie') || Request::is('carriere') ? 'active' : '' }}" style="font-size: 18px;">
+                        <span>A propos</span> <i class="bi bi-chevron-down toggle-dropdown"></i>
+                    </a>
+                    <ul>
+                        <li><a href="{{ url('/propos') }}" class="{{ Request::is('propos') ? 'active' : '' }}">QUI SOMMES-NOUS</a></li>
+                        <li><a href="{{ url('/clients') }}" class="{{ Request::is('clients') ? 'active' : '' }}">NOS CLIENTS</a></li>
+                        <li><a href="{{ url('/galerie') }}" class="{{ Request::is('galerie') ? 'active' : '' }}">GALERIE</a></li>
+                        <li><a href="{{ url('/carriere') }}" class="{{ Request::is('carriere') ? 'active' : '' }}">CARRIERE</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="{{ url('/service') }}" class="montserrat fw-bold {{ Request::is('service') ? 'active' : '' }}"style="font-size: 18px;" >Nos Services</a></li>
+                <li><a href="{{ url('/formation') }}" class="montserrat fw-bold text-danger {{ Request::is('formation') ? 'active' : '' }} " style="font-size: 18px;" >Formations</a></li>
+                <li><a href="{{ url('/contact') }}" class="montserrat fw-bold {{ Request::is('contact') ? 'active' : '' }}" style="font-size: 18px;">Contacts</a></li>
+
+                @auth
+                    <li class="dropdown">
+                        <a href="#" class="montserrat fw-bold {{ Request::is('tableau') || Request::is('user-resultes') || Request::is('mes-cours') ? 'active' : '' }} "style="font-size: 18px;" >
+                            <span>{{ Auth::user()->name }}</span> <i class="bi bi-chevron-down toggle-dropdown"></i>
+                        </a>
+                        <ul>
+                            @if(Auth::check() && Auth::user()->role_id == 1)
+                            <li><a href="{{ url('tableau') }}" class="{{ Request::is('tableau') ? 'active' : '' }}">TABLEAU DE BORD</a></li>
+                            @endif
+                            <li><a href="{{ url('user-resultes#resultats') }}" class="{{ Request::is('user-resultes') ? 'active' : '' }}">MES RESULTATS</a></li>
+                            <li><a href="{{ url('/mes-cours') }}" class="{{ Request::is('mes-cours') ? 'active' : '' }}">MES FORMATIONS</a></li>
+                            <li><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">DECONNEXION</a></li>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="{{ url('cart') }}" class="montserrat fw-bold {{ Request::is('cart') ? 'active' : '' }}" style="font-size: 18px;">
+                            Panier <span class="badge badge-pill bg-success cart-count">0</span>
+                        </a>
+                    </li>
+                @else
+                    <li><a href="{{ url('/login') }}" class="montserrat fw-bold {{ Request::is('login') ? 'active' : '' }}" style="font-size: 18px;" >Connexion</a></li>
+                @endauth
+            </ul>
+
           <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
 
@@ -148,9 +165,53 @@
     </section><!-- /Hero Section -->
 
 
+    <!-- Call To Action Section -->
+    <section id="call-to-action" class="call-to-action section light-background">
+
+      <div class="container">
+
+        <div class="row" data-aos="zoom-in" data-aos-delay="100" style="text-align: justify; font-family: 'Montserrat', sans-serif;">
+          <div class="col-xl-6 text-xl-start">
+            <h3>Formations</h3>
+            <h5 class="mt-3 mb-3">Découvrez notre formation SYCEBNL : Un tremplin vers l'excellence !
+            </h5>
+            <p class="" style="text-align: justify;" >
+                Vous souhaitez acquérir des compétences solides et évoluer dans votre domaine ? Notre formation SYCEBNL est
+                conçue pour vous offrir un apprentissage de qualité, adapté aux exigences du marché. Grâce à un programme
+                structuré, des formateurs expérimentés et une approche pratique, vous développerez les compétences essentielles
+                 pour exceller.
+            </p>
+            <h5 class="mb-4">Pourquoi choisir SYCEBNL ?
+            </h5>
+
+<p>✅ Contenu riche et actualisé
+</p>
+<p>✅ Encadrement par des experts du secteur
+</p>
+<p>
+    ✅ Approche pratique et immersive
+</p>
+
+
+
+          </div>
+          <div class="col-xl-6 cta-btn-container text-center">
+            <div class="mt-4">
+                <img src="assets/img/formation.jpg" class="img-fluid rounded-4" alt="Image"
+                     style="height: 400px; object-fit: cover;">
+            </div>
+            <a class="btn btn-primary float-end mt-4" href="formation">VOIR NOS FORMATIONS</a>
+        </div>
+
+        </div>
+
+      </div>
+
+    </section>
+    <!-- /Call To Action Section -->
 
     <!-- Services Section -->
-    <section id="services" class="services section">
+    <section id="services" class="services section" style="text-align: justify; font-family: 'Montserrat', sans-serif;">
 
       <div class="container">
         <div class="container section-title" data-aos="fade-up">
@@ -196,46 +257,7 @@
             </div>
           </div><!-- End Service Item -->
 
-          {{--  <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
-            <div class="service-item position-relative">
-              <div class="icon">
-                <i class="bi bi-bounding-box-circles"></i>
-              </div>
-              <a href="#" class="stretched-link">
-                <h3>Asperiores Commodit</h3>
-              </a>
-              <p>Non et temporibus minus omnis sed dolor esse consequatur. Cupiditate sed error ea fuga sit provident adipisci neque.</p>
-              <a href="#" class="stretched-link"></a>
-            </div>
-          </div>
-          <!-- End Service Item -->
 
-          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
-            <div class="service-item position-relative">
-              <div class="icon">
-                <i class="bi bi-calendar4-week"></i>
-              </div>
-              <a href="#" class="stretched-link">
-                <h3>Velit Doloremque</h3>
-              </a>
-              <p>Cumque et suscipit saepe. Est maiores autem enim facilis ut aut ipsam corporis aut. Sed animi at autem alias eius labore.</p>
-              <a href="#" class="stretched-link"></a>
-            </div>
-          </div>
-          <!-- End Service Item -->
-
-          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="600">
-            <div class="service-item position-relative">
-              <div class="icon">
-                <i class="bi bi-chat-square-text"></i>
-              </div>
-              <a href="#" class="stretched-link">
-                <h3>Dolori Architecto</h3>
-              </a>
-              <p>Hic molestias ea quibusdam eos. Fugiat enim doloremque aut neque non et debitis iure. Corrupti recusandae ducimus enim.</p>
-              <a href="#" class="stretched-link"></a>
-            </div>
-          </div>  --}}
           <!-- End Service Item -->
 
         </div>
@@ -498,7 +520,8 @@
             <ul>
               <li><a href="/">Accueil</a></li>
               <li><a href="service">Nos Services</a></li>
-              <li><a href="#">carrières</a></li>
+              <li><a href="carriere">carrières</a></li>
+              <li><a href="https://web53.lws-hosting.com:2096/cpsess9121598487/3rdparty/roundcube/?_task=mail&_mbox=INBOX" target="_blank">Webmail</a></li>
 
             </ul>
           </div>
@@ -600,7 +623,196 @@
 
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+  @if(session('status'))
+      <script>
+          swal("{{ session('status') }}");
+      </script>
+  @endif
+  {{--  <script >
+    FeexPayButton.init("render",{
+    id:"6799d8ed512b3c794e2f66f3",
+    amount: 5000,
+    token:"test_Hg7Kjl3ZAM63UuIUpuudD9nKuu3ZAM67Kjl3Uuhn" ,
+    callback:()=> "",
+    callback_url: your callurl if you want,
+     mode: 'SANDBOX'
+    custom_button: true ,
+    id_custom_button:"paiement",
+    custom_id: If you want to put a reference to allow you to make other requests, you can put it here but it must be a random string,
+     description: "Paiement du module sur idealexpertisecpa",
+    case: "MOBILE"/"CARD",  })
+  </script>  --}}
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script><script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
+  <script>
+      $(document).ready(function () {
+          loadcart();
 
+          $('.addToCartBtn').click( function (e) {
+              e.preventDefault();
+
+                  var product_id= $(this).closest('.product_data').find('.chapitre_id').val();
+                  var product_qty= $(this).closest('.product_data').find('.qty-input').val();
+                  var prixe= $(this).closest('.product_data').find('.formation_id').val();
+
+
+                  $.ajaxSetup({
+                      headers:{
+                          'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')
+                      }
+                  });
+                  $.ajax({
+                      method:"Post",
+                      url:"/add-to-cart",
+                      data:{
+                          'chapitre_id':product_id,
+                          'quantite':product_qty,
+                          'formation_id':prixe,
+                      },
+
+                      success:function(response){
+                          console.log(response);
+                          swal(response.status);
+                          loadcart();
+                          //window.location.reload();
+
+                      }
+
+                  });
+
+          });
+          function loadcart()
+          {
+              $.ajax({
+                  method:"GET",
+                  url:"/load-cart-data",
+                  success:function(response){
+                       $('.cart-count').html('');
+                       $('.cart-count').html(response.count);
+                      //alert(response.count)
+                  }
+
+              });
+          };
+          $(document).on('click','.delete-cart-item', function (e) {
+              e.preventDefault();
+
+                  var prod_id= $(this).closest('.product_data').find('.prod_id').val();
+
+                  //alert(prod_id)
+                  $.ajaxSetup({
+                      headers:{
+                          'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')
+                      }
+                  });
+                  $.ajax({
+                      method:"Post",
+                      url:"/delete-cart-item",
+                      data:{
+                          'article_id':prod_id,
+
+                      },
+                      success:function(response){
+                          //window.location.reload();
+                          setTimeout(function() {
+                              window.location.reload();
+                          }, 2000);
+                         loadcart();
+                         // $('.cartitems').load(location.href +" .cartitems");
+                          swal("",response.status,"success")
+                      }
+
+                  });
+
+
+
+          });
+
+          $(document).on('click','.changeQuantity', function (e) {
+              e.preventDefault();
+
+                  var product_id= $(this).closest('.product_data').find('.prod_id').val();
+                  var qty= $(this).closest('.product_data').find('.qty-input').val();
+                 // alert(product_id)
+                 // alert(qty)
+                  data={
+                      'article_id':product_id,
+                      'quantite':qty,
+
+                  },
+
+                  $.ajaxSetup({
+                      headers:{
+                          'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')
+                      }
+                  });
+                  $.ajax({
+                      method:"Post",
+                      url:"/update-cart",
+                      data:data,
+                      success:function(response){
+                          loadcart();
+
+                           swal("",response.status,"success")
+                          //window.location.reload();
+                         //$('.cartitems').load(location.href +" .cartitems");
+                      }
+
+                  });
+
+
+
+          });
+
+           {{--  function commandes (e,transaction) {
+              e.preventDefault();
+
+
+                      var adresses= $(this).closest('.product_data').find('.adresse').val();
+                      var phones= $(this).closest('.product_data').find('.phone').val();
+
+
+
+                      $.ajaxSetup({
+                          headers:{
+                              'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')
+                          }
+                      });
+                      $.ajax({
+                          method:"Post",
+                          url:"/placer-commande",
+                          data:{
+                              'transaction_id':transaction,
+                              'adresse':adresses,
+                              'phone':phones,
+
+                          },
+                          success:function(response){
+                              //window.location.reload();
+
+                             //loadcart();
+                             // $('.cartitems').load(location.href +" .cartitems");
+                              swal("",response.status,"success")
+                          }
+
+                      });
+
+
+
+
+
+
+          };  --}}
+
+
+
+
+      });
+
+
+  </script>
 </body>
 
 </html>

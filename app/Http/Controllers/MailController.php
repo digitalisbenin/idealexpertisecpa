@@ -27,7 +27,7 @@ class MailController extends Controller
         try {
             // Envoi de l'email
             Mail::send([], [], function ($message) use ($data) {
-                $message->to('ilyassine2008@gmail.com')
+                $message->to('idealcpa2021@gmail.com')
                     ->subject('Nouveau message de contact')
                     ->html("
                          <div style='font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;'>

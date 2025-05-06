@@ -1,44 +1,116 @@
 <?php
 
 namespace App\Models;
-
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
-
-class User extends Authenticatable
+/**
+ * @property integer $id
+ * @property string $role_id
+ * @property string $name
+ * @property string $email
+ * @property string $email_verified_at
+ * @property string $password
+ * @property string $remember_token
+ * @property string $created_at
+ * @property string $updated_at
+ * @property Cart[] $carts
+ * @property Certificate[] $certificates
+ * @property Commande[] $commandes
+ * @property Commentaire[] $commentaires
+ * @property Evaluation[] $evaluations
+ * @property Formation[] $formations
+ * @property MesCour[] $mesCours
+ * @property Notequiz[] $notequizzes
+ * @property Suivy[] $suivies
+ * @property UserResult[] $userResults
+ */
+class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use Notifiable;
+    /**
+     * @var array
+     */
+    protected $fillable = ['role_id', 'name', 'email', 'email_verified_at', 'password', 'remember_token', 'created_at', 'updated_at'];
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    public function carts()
+    {
+        return $this->hasMany('App\Models\Cart');
+    }
 
     /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    public function certificates()
+    {
+        return $this->hasMany('App\Models\Certificate');
+    }
 
     /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    public function commandes()
+    {
+        return $this->hasMany('App\Models\Commande');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function commentaires()
+    {
+        return $this->hasMany('App\Models\Commentaire');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function evaluations()
+    {
+        return $this->hasMany('App\Models\Evaluation');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function formations()
+    {
+        return $this->hasMany('App\Models\Formation');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function mesCours()
+    {
+        return $this->hasMany('App\Models\MesCour');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function notequizzes()
+    {
+        return $this->hasMany('App\Models\Notequiz');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function suivies()
+    {
+        return $this->hasMany('App\Models\Suivy');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function userResults()
+    {
+        return $this->hasMany('App\Models\UserResult');
+    }
 }

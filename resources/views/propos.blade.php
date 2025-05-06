@@ -27,20 +27,14 @@
   <!-- Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
 
-  <!-- =======================================================
-  * Template Name: Flattern
-  * Template URL: https://bootstrapmade.com/flattern-multipurpose-bootstrap-template/
-  * Updated: Aug 07 2024 with Bootstrap v5.3.3
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
+ 
 </head>
 
 <body class="about-page">
 
   <header id="header" class="header sticky-top">
 
-    <div style="background-color: #318ce7; color: white;" class="topbar d-flex align-items-center light-background">
+    {{--  <div style="background-color: #318ce7; color: white;" class="topbar  d-flex align-items-center light-background">
       <div class="container d-flex justify-content-center justify-content-md-between">
         <div class="contact-info d-flex align-items-center">
           <i style="color: white;"  class="bi bi-envelope d-flex align-items-center"><a  style="color: white; text-decoration: none;" href="#">info@idealexpertisecpa.com</a></i>
@@ -53,7 +47,8 @@
           <a style="color: white;" href="https://www.linkedin.com/in/djimessa-modeste-dansou-47624316/details/experience/?_l=en_US" class="linkedin"><i class="bi bi-linkedin"></i></a>
         </div>
       </div>
-    </div><!-- End Top Bar -->
+    </div>  --}}
+    <!-- End Top Bar -->
 
     <div class="branding d-flex align-items-cente">
 
@@ -65,35 +60,52 @@
           </a>
 
           <nav id="navmenu" class="navmenu">
-            <ul>
-                <li><a href="/" class="active">Accueil<br></a></li>
-                <li class="dropdown"><a href="#"><span>A propos</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+            <ul class="montserrat fw-bold" style="font-size: 2px;" >
+              <li><a href="{{ url('/') }}" class="montserrat fw-bold {{ Request::is('/') ? 'active' : '' }}" style="font-size: 18px;" >Accueil</a></li>
+          
+              <li class="dropdown">
+                  <a href="#" class="montserrat fw-bold {{ Request::is('propos') || Request::is('clients') || Request::is('galerie') || Request::is('carriere') ? 'active' : '' }}" style="font-size: 18px;">
+                      <span>A propos</span> <i class="bi bi-chevron-down toggle-dropdown"></i>
+                  </a>
                   <ul>
-                    <li><a href="{{ url('/propos') }}">QUI SOMMES-NOUS</a></li>
-                    {{--  <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-                      <ul>
-                        <li><a href="#">Deep Dropdown 1</a></li>
-                        <li><a href="#">Deep Dropdown 2</a></li>
-                        <li><a href="#">Deep Dropdown 3</a></li>
-                        <li><a href="#">Deep Dropdown 4</a></li>
-                        <li><a href="#">Deep Dropdown 5</a></li>
-                      </ul>
-                    </li>  --}}
-                    <li><a href="{{ url('/clients') }}">NOS CLIENTS</a></li>
-                    <li><a href="{{ url('/galerie') }}">GALERIE</a></li>
-                    <li><a href="{{ url('/carriere') }}">CARRIERE</a></li>
+                      <li><a href="{{ url('/propos') }}" class="{{ Request::is('propos') ? 'active' : '' }}">QUI SOMMES-NOUS</a></li>
+                      <li><a href="{{ url('/clients') }}" class="{{ Request::is('clients') ? 'active' : '' }}">NOS CLIENTS</a></li>
+                      <li><a href="{{ url('/galerie') }}" class="{{ Request::is('galerie') ? 'active' : '' }}">GALERIE</a></li>
+                      <li><a href="{{ url('/carriere') }}" class="{{ Request::is('carriere') ? 'active' : '' }}">CARRIERE</a></li>
                   </ul>
-                </li>
-                <li><a href="{{ url('/service') }}"> Nos Services</a></li>
-                <li><a href="#">Formations</a></li>
-                {{--  <li><a href="testimonials.html">Testimonials</a></li>
-                <li><a href="pricing.html">Pricing</a></li>
-                <li><a href="portfolio.html">Portfolio</a></li>
-                <li><a href="blog.html">Blog</a></li>  --}}
-
-                <li><a href="{{ url('/contact') }}">Contacts</a></li>
-                <li><a href="{{ url('/login') }}">Connexion</a></li>
-              </ul>
+              </li>
+          
+              <li><a href="{{ url('/service') }}" class="montserrat fw-bold {{ Request::is('service') ? 'active' : '' }}"style="font-size: 18px;" >Nos Services</a></li>
+              <li><a href="{{ url('/formation') }}" class="montserrat fw-bold text-danger {{ Request::is('formation') ? 'active' : '' }} " style="font-size: 18px;" >Formations</a></li>
+              <li><a href="{{ url('/contact') }}" class="montserrat fw-bold {{ Request::is('contact') ? 'active' : '' }}" style="font-size: 18px;">Contacts</a></li>
+          
+              @auth
+              <li class="dropdown">
+                <a href="#" class="montserrat fw-bold {{ Request::is('tableau') || Request::is('user-resultes') || Request::is('mes-cours') ? 'active' : '' }} "style="font-size: 18px;" >
+                    <span>{{ Auth::user()->name }}</span> <i class="bi bi-chevron-down toggle-dropdown"></i>
+                </a>
+                <ul>
+                    @if(Auth::check() && Auth::user()->role_id == 1)
+                    <li><a href="{{ url('tableau') }}" class="{{ Request::is('tableau') ? 'active' : '' }}">TABLEAU DE BORD</a></li>
+                    @endif
+                    <li><a href="{{ url('user-resultes#resultats') }}" class="{{ Request::is('user-resultes') ? 'active' : '' }}">MES RESULTATS</a></li>
+                    <li><a href="{{ url('/mes-cours') }}" class="{{ Request::is('mes-cours') ? 'active' : '' }}">MES FORMATIONS</a></li>
+                    <li><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">DECONNEXION</a></li>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
+                </ul>
+            </li>
+                  <li>
+                      <a href="{{ url('cart') }}" class="montserrat fw-bold {{ Request::is('cart') ? 'active' : '' }}" style="font-size: 18px;">
+                          Panier <span class="badge badge-pill bg-success cart-count">0</span>
+                      </a>
+                  </li>
+              @else
+                  <li><a href="{{ url('/login') }}" class="montserrat fw-bold {{ Request::is('login') ? 'active' : '' }}" style="font-size: 18px;" >Connexion</a></li>
+              @endauth
+          </ul>
+            
             <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
           </nav>
 
@@ -120,15 +132,15 @@
     </div><!-- End Page Title -->
 
     <!-- About Section -->
-    <section id="about" class="about section">
+    <section id="about" class="about section" style="text-align: justify; font-family: 'Montserrat', sans-serif;">
 
       <div class="container">
 
         <div class="row gy-4">
-          <div class="col-lg-6 text-center" data-aos="fade-up" data-aos-delay="100">
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
 
 
-            <p class="mt-4">Implanté dans la capitale économique du Bénin, le cabinet ‘’Ideal Expertise CPA’’ est un cabinet
+            <p class="mt-4 " style="text-align: justify;">Implanté dans la capitale économique du Bénin, le cabinet ‘’Ideal Expertise CPA’’ est un cabinet
                  d’expertise-comptable pluridisciplinaire, dont la vocation est d’accompagner un grand nombre de sociétés dans
                   les domaines de laabilité, du conseil, et de l’audit. Inscrit à l’Ordre des Experts – Comptables (l’OECCA – Bénin),
                    le cabinet, à travers une large gamme de services qu’il propose, assiste ses clients dans la mise en place d’outils
@@ -136,7 +148,7 @@
                     <br>
                     <br>
 
-            <p>“ Nous sommes avant tout
+            <p style="text-align: justify;" >“ Nous sommes avant tout
                 des professionnels ” Les diverses prestations proposées parnotre cabinet sont effectuées dans le respect des règles déontologiques qui régissent la profession des experts – comptables. Toujours à la pointe de l’actualité, le cabinet ‘’Ideal Expertise CPA’’ vous accompagne dans tous vos projets.
 
                 Le cabinet ‘’Idéal Expertise CPA’’ est avant tout une équipe de comptables professionnels, dynamique, réactive, de taille humaine et proche de ses clients.</p>
@@ -169,9 +181,9 @@
 
     </section><!-- /About Section -->
 
-    <section id="testimonials" class="testimonials section">
+    <section id="testimonials" class="testimonials section" >
 
-        <div class="container">
+        <div class="container" style="text-align: justify; font-family: 'Montserrat', sans-serif;">
 
           <div class="row gy-4">
 
@@ -182,7 +194,7 @@
 
                 <p>
                   <i class="bi bi-quote quote-icon-left"></i>
-                  <span>Plus de 20 ans d’expériences au service de différents secteurs d’activités. M. DANSOU D. Modeste est diplômé de grandes écoles en France et au Canada. Il cumule plusieurs années d’expériences professionnelles riches et variées. Il a une connaissance complète de la structure des organisations et a une grande habileté pour la mise en place de situation profitable pour l’entreprise.</span>
+                  <span style="text-align: justify;">Plus de 20 ans d’expériences au service de différents secteurs d’activités. M. DANSOU D. Modeste est diplômé de grandes écoles en France et au Canada. Il cumule plusieurs années d’expériences professionnelles riches et variées. Il a une connaissance complète de la structure des organisations et a une grande habileté pour la mise en place de situation profitable pour l’entreprise.</span>
                   <i class="bi bi-quote quote-icon-right"></i>
                 </p>
               </div>
@@ -196,7 +208,7 @@
 
                 <p>
                   <i class="bi bi-quote quote-icon-left"></i>
-                  <span>‘’ Ideal Expertise CPA’’ agit en tant que Partenaire-Conseil de votre entreprise. Nos compétences associées à la proximité avec les dirigeants nous permettent d’effectuer une grande diversité de missions dans de nombreux secteurs d’intervention. Notre cabinet vous accompagne dans toutes les opérations liées à la vie de l’entreprise. Le cabinet ‘’Idéal Expertise CPA’’ apporte une particulière attention au respect des valeurs qui régissent la profession d’expert-comptable et de commissaires aux comptes: qualité, proximité et réactivité.</span>
+                  <span style="text-align: justify;" >‘’ Ideal Expertise CPA’’ agit en tant que Partenaire-Conseil de votre entreprise. Nos compétences associées à la proximité avec les dirigeants nous permettent d’effectuer une grande diversité de missions dans de nombreux secteurs d’intervention. Notre cabinet vous accompagne dans toutes les opérations liées à la vie de l’entreprise. Le cabinet ‘’Idéal Expertise CPA’’ apporte une particulière attention au respect des valeurs qui régissent la profession d’expert-comptable et de commissaires aux comptes: qualité, proximité et réactivité.</span>
                   <i class="bi bi-quote quote-icon-right"></i>
                 </p>
               </div>
@@ -210,7 +222,7 @@
 
                 <p>
                   <i class="bi bi-quote quote-icon-left"></i>
-                  <span> Notre ambition de comprendre vos besoins et à trouver une solution adéquate à chaque demande. Pour cela, avant toute mission, nous vous proposons une rencontre afin de nous faire part de vos attentes. Parce que nous savons que votre démarche constitue un investissement pour votre entreprise, nous étudierons au mieux votre demande afin de s’adapter à vos besoins, mais également à votre budget.</span>
+                  <span style="text-align: justify;"> Notre ambition de comprendre vos besoins et à trouver une solution adéquate à chaque demande. Pour cela, avant toute mission, nous vous proposons une rencontre afin de nous faire part de vos attentes. Parce que nous savons que votre démarche constitue un investissement pour votre entreprise, nous étudierons au mieux votre demande afin de s’adapter à vos besoins, mais également à votre budget.</span>
                   <i class="bi bi-quote quote-icon-right"></i>
                 </p>
               </div>
@@ -282,8 +294,8 @@
             <ul>
               <li><a href="/">Accueil</a></li>
               <li><a href="service">Nos Services</a></li>
-              <li><a href="#">carrières</a></li>
-
+              <li><a href="carriere">carrières</a></li>
+              <li><a href="https://web53.lws-hosting.com:2096/cpsess9121598487/3rdparty/roundcube/?_task=mail&_mbox=INBOX" target="_blank">Webmail</a></li>
             </ul>
           </div>
 
